@@ -15,7 +15,8 @@ class CheckInScreen extends StatelessWidget {
       home: DefaultTabController(
         length: 4,
         child: Scaffold(
-          appBar: AppBar(
+            resizeToAvoidBottomPadding: true,
+            appBar: AppBar(
             bottom: TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.home), text: "Home"),
@@ -97,12 +98,17 @@ class CheckInAddFormState extends State<CheckInAddForm> {
                 if (!snapshot.hasData) return const Text('Loading...');
                 return new DropdownButton<String>(
                   isDense: true,
-                  hint: new Text("Select Customer..."),
+                  hint: new Text(_customer ?? "Select Customer..."),
                   value: _customer,
                   onChanged: (String newValue) {
                     _customer = newValue;
-                    print (_customer);
+                    //print (_customer);
+                    controller: TextEditingController()..text = _customer;
                   },
+                  // onTap: (){
+                  //  // hint
+                  //   controller: TextEditingController()..text = _customer;
+                  // },
                   items: snapshot.data.documents.map((DocumentSnapshot document) {
                     return new DropdownMenuItem<String>(
                         value: document.data['name'],
@@ -161,8 +167,11 @@ class CheckInAddFormState extends State<CheckInAddForm> {
               ),
               onChanged: (val) {
                 _singler = int.parse(val);
-                _totalr = _totalr + _singler;
-                _roomcost = _roomcost + double.parse((3000 * _singler).toString());
+
+                setState(() {
+                  _totalr = _totalr + _singler;
+                  _roomcost = _roomcost + double.parse((3000 * _singler).toString());
+                });
               },
             ),
           ),
@@ -176,8 +185,11 @@ class CheckInAddFormState extends State<CheckInAddForm> {
               ),
               onChanged: (val) {
                 _doubler = int.parse(val);
-                _totalr = _totalr + _doubler;
-                _roomcost = _roomcost + double.parse((3500 * _doubler).toString());
+
+                setState(() {
+                  _totalr = _totalr + _doubler;
+                  _roomcost = _roomcost + double.parse((3500 * _doubler).toString());
+                });
               },
             ),
           ),
@@ -191,8 +203,11 @@ class CheckInAddFormState extends State<CheckInAddForm> {
               ),
               onChanged: (val) {
                 _familyr = int.parse(val);
-                _totalr = _totalr + _familyr;
-                _roomcost = _roomcost + double.parse((4500 * _familyr).toString());
+
+                setState(() {
+                  _totalr = _totalr + _familyr;
+                  _roomcost = _roomcost + double.parse((4500 * _familyr).toString());
+                });
               },
             ),
           ),
@@ -204,6 +219,9 @@ class CheckInAddFormState extends State<CheckInAddForm> {
                 hintText: "Total Rooms",
               ),
               controller: TextEditingController()..text = _totalr.toString(),
+              // onTap: (){
+              //   controller: TextEditingController()..text = _totalr.toString();
+              // },
               readOnly: true,
               //initialValue: _totalr.toString(),
             ),

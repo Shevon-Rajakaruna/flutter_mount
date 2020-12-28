@@ -6,15 +6,30 @@ import 'package:intl/intl.dart';
 class CheckOutView extends StatelessWidget {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document){
+    var ddate = document['checkout_date'];
+    IconData icon;
+
+    if (ddate == null){
+      ddate = ' - ';
+    } else {
+      ddate = DateFormat('yyyy-MM-dd – kk:mm').format((document['checkout_date']).toDate());
+    }
+
+    if(document['checked_out'] == true){
+      icon = Icons.check_circle_outlined;
+    } else{
+      icon = Icons.cancel_outlined;
+    }
+
+   // var icons = 'cancel_outlined';
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Card(
         margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
         child: ListTile(
-          leading: const Icon(Icons.check_circle_outlined, color: Colors.green, size: 40,),
+          leading: Icon(icon, color : icon == Icons.cancel_outlined ?Colors.red : Colors.green, size: 40,),
           title: Text(document['customer']),
-          // subtitle: Text('Checking Out : ${DateFormat('yyyy-MM-dd – kk:mm').format(document['checkout_date'].toDate() ?? '2020-12-12')}'),
-          subtitle: Text('Checking Out - Cost: ${document['total']}'),
+          subtitle: Text('Checking Out : $ddate'),
           onTap: (){
             Navigator.push(
               context,

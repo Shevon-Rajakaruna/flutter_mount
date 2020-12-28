@@ -83,7 +83,7 @@ class CheckOutAddFormState extends State<CheckOutAddForm> {
       setState(() {
         data =snapshot.data;
         _customer = snapshot.data['customer'];
-        _cdate = snapshot.data['checkout_date'].toDate();
+        _cdate = snapshot.data['checkout_date'];
         _rcharges = snapshot.data['room_charges'];
         _fcharges = snapshot.data['food_charges'];
         _other = snapshot.data['other'];
@@ -99,10 +99,12 @@ class CheckOutAddFormState extends State<CheckOutAddForm> {
 
     super.initState();
     getData();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_customer);
     return Form(
       key: _formKey,
       child: Column(
@@ -130,7 +132,13 @@ class CheckOutAddFormState extends State<CheckOutAddForm> {
                 //hintText: "CustomerName",
               ),
               controller: TextEditingController()..text = _customer,
-              readOnly: true,
+              // initialValue: _customer,
+              onTap: (){
+                setState(() {
+                  controller: TextEditingController()..text = _customer;
+                });
+              },
+              // readOnly: true,
             ),
           ),
 
@@ -164,14 +172,16 @@ class CheckOutAddFormState extends State<CheckOutAddForm> {
             leading: Text('Room Charges'),
             title: new TextFormField(
               keyboardType: TextInputType.number,
-              decoration: new InputDecoration(
-                hintText: "Total Room Charges",
-              ),
+              // decoration: new InputDecoration(
+              //   hintText: "Total Room Charges",
+              // ),
               controller: TextEditingController()..text = _rcharges.toString(),
               onChanged: (val) {
                 _rcharges = double.parse(val);
-                // _total = _total + _rcharges;
-                // print(_total);
+
+                // setState(() {
+                //   _total = _total + _rcharges;
+                // });
               },
             ),
           ),
@@ -180,14 +190,16 @@ class CheckOutAddFormState extends State<CheckOutAddForm> {
             leading: Text('Beverage Charges'),
             title: new TextFormField(
               keyboardType: TextInputType.number,
-              decoration: new InputDecoration(
-                hintText: "Total Beverage Charges",
-              ),
+              // decoration: new InputDecoration(
+              //   hintText: "Total Beverage Charges",
+              // ),
               controller: TextEditingController()..text = _fcharges.toString(),
               onChanged: (val) {
                 _fcharges = double.parse(val);
-                // _total = _total + _fcharges;
-                // print(_total);
+
+                // setState(() {
+                //   _total = _total + _fcharges;
+                // });
               },
             ),
           ),
@@ -196,14 +208,16 @@ class CheckOutAddFormState extends State<CheckOutAddForm> {
             leading: Text('Other Charges'),
             title: new TextFormField(
               keyboardType: TextInputType.number,
-              decoration: new InputDecoration(
-                hintText: "No. of Family Rooms",
-              ),
+              // decoration: new InputDecoration(
+              //   hintText: "No. of Family Rooms",
+              // ),
               controller: TextEditingController()..text = _other.toString(),
               onChanged: (val) {
                 _other = double.parse(val);
-                // _total = _total + _fcharges;
-                // print(_total);
+
+                // setState(() {
+                //   _total = _total + _other;
+                // });
               },
             ),
           ),
@@ -211,14 +225,15 @@ class CheckOutAddFormState extends State<CheckOutAddForm> {
           new ListTile(
             leading: Text('Discount'),
             title: new TextFormField(
-              decoration: new InputDecoration(
-                hintText: "Discount",
-              ),
+              // decoration: new InputDecoration(
+              //   hintText: "Discount",
+              // ),
               controller: TextEditingController()..text = _discount.toString(),
               onChanged: (val) {
                 _discount = double.parse(val);
-                // _total = _total - _discount;
-                // print(_total);
+                // setState(() {
+                //   _total = _total - _discount;
+                // });
               },
             ),
           ),
@@ -235,10 +250,12 @@ class CheckOutAddFormState extends State<CheckOutAddForm> {
               //   print(_total);
               // },
               onTap: (){
-                _total = getTotal();
-                controller: TextEditingController()..text = _total.toString();
+                setState(() {
+                  _total = this.getTotal();
+                  controller: TextEditingController()..text = _total.toString();
+                });
               },
-              //readOnly: true,
+              readOnly: true,
             ),
           ),
 
